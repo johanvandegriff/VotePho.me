@@ -224,12 +224,12 @@ $(function() {
 	}
 
 	$(document).keydown(function(e) {
-		console.log(e);
-		console.log(e.which);
-		console.log($selected);
-		console.log($slider);
-		console.log($thumbnails);
-		console.log($edge);
+		// console.log(e);
+		// console.log(e.which);
+		// console.log($selected);
+		// console.log($slider);
+		// console.log($thumbnails);
+		// console.log($edge);
 		if (e.which == 37) { //left
 			prevImage();
 			e.preventDefault();

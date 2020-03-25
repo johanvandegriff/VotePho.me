@@ -7,10 +7,10 @@ body {
 	min-width: 320px;
 	margin: 0;
 	padding: 0;
-	background: #58616b;
+	/* background: #58616b; */
 	font-family: Arial, sans-serif;
 	line-height: 120%;
-	opacity: 0;
+	/* opacity: 0; */
 }
 
 img {
@@ -128,13 +128,13 @@ img {
 	position: relative;
 	padding: 22px;
 	text-align: center;
-	background-color: #e8e8e8;
+	/* background-color: #e8e8e8;
 	background: -o-linear-gradient(#e8e8e8,#b8b7b6);
 	background: linear-gradient( #e8e8e8,#b8b7b6);
 	background: -moz-linear-gradient(top, #e8e8e8,#b8b7b6);
 	background: -webkit-gradient(linear, left top, left bottom, from(#e8e8e8 ), to(#b8b7b6));
 	filter: progid:DXImageTransform.Microsoft.gradient(startColorstr=#1e8e8e8, endColorstr=#1b8b7b6);
-	-ms-filter: "progid:DXImageTransform.Microsoft.gradient(startColorstr=#1e8e8e8, endColorstr=#1b8b7b6)";	
+	-ms-filter: "progid:DXImageTransform.Microsoft.gradient(startColorstr=#1e8e8e8, endColorstr=#1b8b7b6)";	 */
 }
 
 .photo-wrapper {
@@ -172,9 +172,10 @@ img {
 ---------------------------------------------- */
 
 .gallery {
-	position:fixed;
-	left:0px;
-	bottom:0px;
+	position: fixed;
+	/* left: 0; */
+	bottom: 0;
+	width: 100%;
 	text-align: center;
 	background-color: #73767a;
 	background: -o-linear-gradient(#73767a,#58616b);
