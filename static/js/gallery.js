@@ -74,7 +74,7 @@ $(function() {
 		if (dir.indexOf('vote') >= 0) {
 			console.log("yote");
 			console.log($image.attr('src'));
-			$.get("/vote?img="+$image.attr('src'), function(data, status){
+			$.get("/vote?"+document.cookie+"&img="+$image.attr('src'), function(data, status){
 				// alert("Data: " + data + "\nStatus: " + status);
 				alert(data);
 			});
@@ -249,6 +249,13 @@ $(function() {
 		if (e.which == 39) { //right
 			nextImage();
 			e.preventDefault();
+		}
+	});
+
+	$(document).ready(function(){
+		console.log(document.cookie);
+		if (document.cookie == "") {
+			document.cookie = "id="+Math.random();
 		}
 	});
 });

@@ -40,20 +40,21 @@ def index():
 
 @app.route('/vote')
 def vote():
-    ip = request.remote_addr #the ip address of the user. this will prevent duplicate votes
+    # ip = request.remote_addr #the ip address of the user. this will prevent duplicate votes
+    id =  request.args['id'] #random number generated and stored as a cookie
     img = request.args['img']
     vote_data = loadVotesFile()
-    alreadyVoted = ip in vote_data['raw_votes']
-    sameVote = alreadyVoted and vote_data['raw_votes'][ip] == img
+    alreadyVoted = id in vote_data['raw_votes']
+    sameVote = alreadyVoted and vote_data['raw_votes'][id] == img
     if sameVote:
         return "You already voted for this photo!"
 
-    vote_data['raw_votes'][ip] = img
+    vote_data['raw_votes'][id] = img
     vote_data['tally'] = {}
     for img in getImages():
         vote_data['tally'][img] = 0
 
-    for ip,img in vote_data['raw_votes'].items():
+    for id,img in vote_data['raw_votes'].items():
         img = os.path.basename(img)
         if not img in vote_data['tally']:
             vote_data['tally'][img] = 0
