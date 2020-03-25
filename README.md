@@ -37,7 +37,7 @@ cd VotePho.me
 git remote add heroku git@heroku.com:yourapp.git
 git push heroku master
 ```
-7. Visit `https://votephome.herokuapp.com/` or click on "Open app" from within Heroku. It's alive!
+7. Visit `votephome.herokuapp.com` or click on "Open app" from within Heroku. It's alive! Use `votephome.herokuapp.com/admin` to upload images.
 
 ### Deploy to Dokku
 These instructions are for deploying to [Dokku](http://dokku.viewdocs.io/dokku/), a PaaS that you can push apps to as a git repo and it will build and manage them in docker containers.
@@ -62,6 +62,15 @@ Optional steps for https. Again, replace `yoursite.com` with your actual domain 
 ssh dokku@yoursite.com config:set --no-restart votephome DOKKU_LETSENCRYPT_EMAIL=your@email.com
 ssh dokku@yoursite.com letsencrypt votephome
 ```
+
+To make the images uploaded persistent over reboots and rebuilds:
+```bash
+ssh root@yoursite.com mkdir /var/lib/dokku/data/storage/votephome
+ssh root@yoursite.com chmod -R 777 /var/lib/dokku/data/storage/votephome
+ssh dokku@yoursite.com storage:mount votephome /var/lib/dokku/data/storage/votephome:/app/static/images
+```
+
+Done! Visit `votephome.yoursite.com` to use the app. Use `votephome.yoursite.com/admin` to upload images.
 
 ## Credit
 Credit to [evac](https://github.com/evac) on Github for the [Photo-Gallery](https://github.com/evac/Photo-Gallery) repo that I modified and used for this project.

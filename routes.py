@@ -5,7 +5,21 @@ import json, os, random
 TITLE = "VotePho.me - Vote for a Photo" #site title, used in the title bar and the heading within the page
 
 app = Flask(__name__)
+app.config['MAX_CONTENT_LENGTH'] = 100 * 1024 * 1024    # 100 Mb limit
+
 APP_ROOT = os.path.dirname(os.path.abspath(__file__))
+
+VOTES_FILE="votes.json"
+
+def isValidImage(image):
+    ext = os.path.splitext(image)[1]
+    return ext in (".png", ".jpg", ".jpeg", ".PNG", ".JPG", ".JPEG")
+
+def getImages():
+    images = os.listdir("static/images")
+    #keep only the image files
+    images = [image for image in images if isValidImage(image)]
+    return images
 
 #the index.html page, which the user sees
 @app.route('/')
@@ -15,7 +29,7 @@ def index():
 #the json data, which the script reads (not meant for the user)
 @app.route('/gallery_json')
 def gallery_json():
-    images = os.listdir("static/images") #get a list of all the images in the directory
+    images = getImages() #get a list of all the images in the directory
     random.shuffle(images) #shuffle the images to help eliminate bias
 
     #convert the list to a JSON format that the JS will use
@@ -28,7 +42,7 @@ def admin():
     target = os.path.join(APP_ROOT, 'static/images/')
 
     if 'clear' in request.form:
-        for image in os.listdir("static/images"):
+        for image in getImages():
             os.remove("static/images/"+image)
 
 
@@ -47,17 +61,15 @@ def admin():
         # file support verification
         ext = os.path.splitext(filename)[1]
         if ext in (".png", ".jpg", ".jpeg", ".PNG", ".JPG", ".JPEG"):
+            # save file
+            destination = "/".join([target, filename])
+            print("File saved to to:", destination)
+            upload.save(destination)
             message = "File uploaded"
         else:
             message = "File type not supported, please use .png, .jpg, or .jpeg"
 
-        # save file
-        destination = "/".join([target, filename])
-        print("File saved to to:", destination)
-        upload.save(destination)
-
-
-    return render_template("admin.html", message=message, images=os.listdir("static/images"))
+    return render_template("admin.html", message=message, images=getImages())
 
 if __name__ == "__main__":
     app.run()
