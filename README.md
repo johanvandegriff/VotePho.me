@@ -3,7 +3,6 @@ Vote for your favorite photo from a gallery of options!
 
 ## Try It Out!
 The app is live on my personal site: [https://votephome.johanv.xyz/](https://votephome.johanv.xyz/)
-And on Heroku: [https://votephome.herokuapp.com/](https://votephome.herokuapp.com/)
 
 ## Installation
 This part is mostly for me, but you might find it useful as well, especially if you want to modify the code and run it yourself.
