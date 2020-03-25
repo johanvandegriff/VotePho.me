@@ -1,0 +1,207 @@
+{
+  "album": {
+    "name": "vote for your favorite image"
+  },
+  "photos": [
+        {
+            "id": 1,
+            "url": "images/img001.jpg"
+        },
+        {
+            "id": 2,
+            "url": "images/img002.jpg"
+        },
+        {
+            "id": 3,
+            "url": "images/img003.jpg"
+        },
+        {
+            "id": 4,
+            "url": "images/img004.jpg"
+        },
+        {
+            "id": 5,
+            "url": "images/img005.jpg"
+        },
+        {
+            "id": 6,
+            "url": "images/img006.jpg"
+        },
+        {
+            "id": 7,
+            "url": "images/img007.png"
+        },
+        {
+            "id": 8,
+            "url": "images/img008.jpg"
+        },
+        {
+            "id": 9,
+            "url": "images/img009.jpg"
+        },
+        {
+            "id": 10,
+            "url": "images/img010.png"
+        },
+        {
+            "id": 11,
+            "url": "images/img011.jpg"
+        },
+        {
+            "id": 12,
+            "url": "images/img012.jpg"
+        },
+        {
+            "id": 13,
+            "url": "images/img013.jpg"
+        },
+        {
+            "id": 14,
+            "url": "images/img014.jpg"
+        },
+        {
+            "id": 15,
+            "url": "images/img015.jpg"
+        },
+        {
+            "id": 16,
+            "url": "images/img016.jpg"
+        },
+        {
+            "id": 17,
+            "url": "images/img017.jpg"
+        },
+        {
+            "id": 18,
+            "url": "images/img018.png"
+        },
+        {
+            "id": 19,
+            "url": "images/img019.png"
+        },
+        {
+            "id": 20,
+            "url": "images/img020.jpg"
+        },
+        {
+            "id": 21,
+            "url": "images/img021.jpg"
+        },
+        {
+            "id": 22,
+            "url": "images/img022.jpg"
+        },
+        {
+            "id": 23,
+            "url": "images/img023.jpg"
+        },
+        {
+            "id": 24,
+            "url": "images/img024.png"
+        },
+        {
+            "id": 25,
+            "url": "images/img025.jpg"
+        },
+        {
+            "id": 26,
+            "url": "images/img026.jpg"
+        },
+        {
+            "id": 27,
+            "url": "images/img027.jpg"
+        },
+        {
+            "id": 28,
+            "url": "images/img028.jpg"
+        },
+        {
+            "id": 29,
+            "url": "images/img029.jpg"
+        },
+        {
+            "id": 30,
+            "url": "images/img029.png"
+        },
+        {
+            "id": 31,
+            "url": "images/img030.jpg"
+        },
+        {
+            "id": 32,
+            "url": "images/img031.png"
+        },
+        {
+            "id": 33,
+            "url": "images/img032.png"
+        },
+        {
+            "id": 34,
+            "url": "images/img033.png"
+        },
+        {
+            "id": 35,
+            "url": "images/img034.jpg"
+        },
+        {
+            "id": 36,
+            "url": "images/img035.jpg"
+        },
+        {
+            "id": 37,
+            "url": "images/img036.jpg"
+        },
+        {
+            "id": 38,
+            "url": "images/img037.jpg"
+        },
+        {
+            "id": 39,
+            "url": "images/img038.jpg"
+        },
+        {
+            "id": 40,
+            "url": "images/img039.jpg"
+        },
+        {
+            "id": 41,
+            "url": "images/img040.jpg"
+        },
+        {
+            "id": 42,
+            "url": "images/img041.jpg"
+        },
+        {
+            "id": 43,
+            "url": "images/img042.jpg"
+        },
+        {
+            "id": 44,
+            "url": "images/img043.jpg"
+        },
+        {
+            "id": 45,
+            "url": "images/img044.jpg"
+        },
+        {
+            "id": 46,
+            "url": "images/img045.jpg"
+        },
+        {
+            "id": 47,
+            "url": "images/img046.jpg"
+        },
+        {
+            "id": 48,
+            "url": "images/img047.jpg"
+        },
+        {
+            "id": 49,
+            "url": "images/img048.jpg"
+        },
+        {
+            "id": 50,
+            "url": "images/img049.jpg"
+        }
+    ]
+}
