@@ -1,4 +1,4 @@
-// $(function() {
+$(function() {
 	var $header = $("#header");
 	var $frame = $('#frame');
 	var $slider = $('#slider');
@@ -15,7 +15,7 @@
 
 	// Get gallery json data & initialize page
 	$.getJSON('/gallery_json', function(data) {
-		// data = JSON.parse(data);
+		// data = JSON.parse(data); //disabled this line because the data is now already a JS object
 		$header.children('.album').text(data.album.name);
 		photos = data.photos;
 		thumbnails = "";
@@ -62,15 +62,30 @@
 	// Display next or previous photo on click
 	$nav.on('click', 'button', function(event){
 		var dir = this.className;
-		if (dir.indexOf('prev') >= 0 && currPhoto > 1) {
+		if (dir.indexOf('prev') >= 0 ) {
+			prevImage();
+		} else if (dir.indexOf('next') >= 0) {
+			nextImage();
+		}
+	});
+
+	function prevImage() {
+		if (currPhoto > 1) {
 			currPhoto--;
 			prevThumbnail();
-		} else if (dir.indexOf('next') >= 0 && currPhoto < photos.length) {
+			setImage(currPhoto);
+		}
+		prevSlider();
+	}
+
+	function nextImage() {
+		if (currPhoto < photos.length) {
 			currPhoto++;
 			nextThumbnail();
+			setImage(currPhoto);
 		}
-		setImage(currPhoto);
-	});
+		nextSlider();
+	}
 
 	// Display slider based on window size
 	$(window).on('resize', function(){
@@ -85,10 +100,19 @@
 	// Display prev or next thumbnail in slider
 	$slider.on('click', 'span', function(event){
 		var dir = event.target.className;
-		var $first = $thumbnails.children(":first");
-		var last_pos = getLastPos();
 		
-		if (dir.indexOf('prev') >= 0 && $first.css('display') == "none") {
+		if (dir.indexOf('prev') >= 0) {
+			prevSlider();
+
+		} else if(dir.indexOf('next') >= 0) {
+			nextSlider();
+		}
+	});
+
+	function prevSlider() {
+		var $first = $thumbnails.children(":first");
+		
+		if ($first.css('display') == "none") {
 			$prev = $edge.prev();
 			if ($prev.length > 0) {$edge = $prev;} // update if prev exist
 			$edge.css('display', 'inline-block');
@@ -96,8 +120,13 @@
 			// toggle slider buttons
 			if ($first[0] === $edge[0]) {displaySliderBtn('prev', false);}
 			displaySliderBtn('next', true);
+		}
+	}
 
-		} else if(dir.indexOf('next') >= 0 && last_pos > 0) {
+	function nextSlider() {
+		var last_pos = getLastPos();
+
+		if (last_pos > 0) {
 			$edge.css('display', 'none');
 			$edge = $edge.next();
 
@@ -105,7 +134,7 @@
 			displaySliderBtn('prev', true);
 			if (getLastPos() === 0) {displaySliderBtn('next', false);}
 		}
-	});
+	}
 
 	// Toggle gallery theme styles
 	$themes.on('click', 'span', function(event){
@@ -194,25 +223,20 @@
 		return $last.position().top; // get position of last thumbnail for overflow check
 	}
 
-// });
-
-$(document).keydown(function(e) {
-	switch(e.which) {
-		case 37: // left
-		prevThumbnail();
-		break;
-
-		case 38: // up
-		break;
-
-		case 39: // right
-		nextThumbnail();
-		break;
-
-		case 40: // down
-		break;
-
-		default: return; // exit this handler for other keys
-	}
-	e.preventDefault(); // prevent the default action (scroll / move caret)
+	$(document).keydown(function(e) {
+		console.log(e);
+		console.log(e.which);
+		console.log($selected);
+		console.log($slider);
+		console.log($thumbnails);
+		console.log($edge);
+		if (e.which == 37) { //left
+			prevImage();
+			e.preventDefault();
+		}
+		if (e.which == 39) { //right
+			nextImage();
+			e.preventDefault();
+		}
+	});
 });
