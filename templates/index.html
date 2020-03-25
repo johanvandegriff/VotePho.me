@@ -1,0 +1,34 @@
+{% include 'header.html' %}
+
+<h1>This is a Flask Server</h1>
+<h2>With Vue.js</h2>
+<div id="app">
+    <p>{{ text }}</p>
+    <p>[[ number ]]</p>
+</div>
+
+<script src="/static/vue-2.6.11.js"></script>
+
+<script>
+    const app = new Vue ({
+        delimiters: ['[[',']]'],
+        el: "#app",
+        data: {
+            number: 0
+        },
+        created () {
+        },
+        methods: {
+            everySecond: function() {
+                this.number++;
+            }
+        },
+        mounted () {
+            setInterval(() => {
+                this.everySecond();
+            }, 1000);
+        }
+    });
+</script>
+
+{% include 'footer.html' %}
