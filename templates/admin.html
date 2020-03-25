@@ -7,18 +7,29 @@
 </form>
 
 <br/><br/>
+
+<form>
+	<input type="submit" value="Reload">
+</form>
+
+<br/><br/>
 {{ message }}
 <br/><br/>
 
 <form method="POST">
-	<input type="submit" value="Delete All Images">
-	<input type="hidden" name="clear" value="1">
+	<input type="submit" value="Delete All Images and Clear Votes" style="color: white; background: red">
+	<input type="hidden" name="clear" value="yes">
 </form>
 
 <br/><br/>
 
 {% for image in images %}
+<div style="border: 1px solid black">
 <img style="height: 150px" src="/static/images/{{ image }}">
+{{ votes[image] }}
+</div>
 {% endfor %}
+
+{{ votes }}
 
 {% endblock %}

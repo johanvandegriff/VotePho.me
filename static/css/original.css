@@ -25,6 +25,11 @@ img {
 	box-sizing: border-box;
 }
 
+.vote {
+	color: white;
+	background: #171;
+	font-size: 20px;
+}
 
 /* Navigation
 ---------------------------------------------- */

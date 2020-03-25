@@ -68,6 +68,18 @@ $(function() {
 			nextImage();
 		}
 	});
+	
+	$(document).on('click', 'button', function(event){
+		var dir = this.className; 
+		if (dir.indexOf('vote') >= 0) {
+			console.log("yote");
+			console.log($image.attr('src'));
+			$.get("/vote?img="+$image.attr('src'), function(data, status){
+				// alert("Data: " + data + "\nStatus: " + status);
+				alert(data);
+			});
+		}
+	});
 
 	function prevImage() {
 		if (currPhoto > 1) {

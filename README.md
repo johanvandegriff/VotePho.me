@@ -57,20 +57,50 @@ git remote add dokku@yoursite.com:votephome
 git push dokku master
 ```
 
-Optional steps for https. Again, replace `yoursite.com` with your actual domain name and `your@email.com` with your actual email.
+(optional) Enable https with letsencrypt. Again, replace `yoursite.com` with your actual domain name and `your@email.com` with your actual email.
 ```bash
 ssh dokku@yoursite.com config:set --no-restart votephome DOKKU_LETSENCRYPT_EMAIL=your@email.com
 ssh dokku@yoursite.com letsencrypt votephome
 ```
 
-To make the images uploaded persistent over reboots and rebuilds:
+(optional) To make the images uploaded persistent over reboots and rebuilds:
 ```bash
 ssh root@yoursite.com mkdir /var/lib/dokku/data/storage/votephome
 ssh root@yoursite.com chmod -R 777 /var/lib/dokku/data/storage/votephome
 ssh dokku@yoursite.com storage:mount votephome /var/lib/dokku/data/storage/votephome:/app/static/images
 ```
 
-Done! Visit `votephome.yoursite.com` to use the app. Use `votephome.yoursite.com/admin` to upload images.
+(optional) Increase max upload size and password protect the admin page:
+```bash
+ssh root@yoursite.com #the rest of the commands should be executed once you are logged in
+apt install apache2-utils
+htpasswd -c /var/lib/dokku/data/storage/votephome/.htpasswd admin #will prompt you for a password
+su dokku #change to the dokku user so that the permissions will be correct on the file you are about to create
+#create the file using cat to dump a bunch of text to a new file
+cat <<EOF > /home/dokku/votephome/nginx.conf.d/upload-password.conf
+client_max_body_size 100M;
+
+location /admin {
+    auth_basic "Admin Page";
+    auth_basic_user_file /var/lib/dokku/data/storage/votephome/.htpasswd;
+
+    proxy_pass  http://votephome-5000;
+    http2_push_preload on;
+    proxy_http_version 1.1;
+    proxy_set_header Upgrade $http_upgrade;
+    proxy_set_header Connection $http_connection;
+    proxy_set_header Host $http_host;
+    proxy_set_header X-Forwarded-Proto $scheme;
+    proxy_set_header X-Forwarded-For $remote_addr;
+    proxy_set_header X-Forwarded-Port $server_port;
+    proxy_set_header X-Request-Start $msec;
+}
+EOF
+exit #log out of the dokku user, back to the root user
+service nginx reload #reload the web server to pick up the new config file you made
+```
+
+Done! Visit `votephome.yoursite.com` to use the app. Use `votephome.yoursite.com/admin` to upload images. If you added the password, it will prompt you. The username is `admin` and the password is whatever you set it to when you ran the `htpasswd` command.
 
 ## Credit
 Credit to [evac](https://github.com/evac) on Github for the [Photo-Gallery](https://github.com/evac/Photo-Gallery) repo that I modified and used for this project.

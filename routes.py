@@ -9,7 +9,19 @@ app.config['MAX_CONTENT_LENGTH'] = 100 * 1024 * 1024    # 100 Mb limit
 
 APP_ROOT = os.path.dirname(os.path.abspath(__file__))
 
-VOTES_FILE="votes.json"
+VOTES_FILE="static/images/votes.json"
+
+def saveVotesFile(vote_data):
+    json.dump(vote_data, open(VOTES_FILE, 'w'), indent=2)
+
+def loadVotesFile():
+    try:
+        vote_data = json.load(open(VOTES_FILE, 'r'))
+    except FileNotFoundError:
+        # if the file doesn't exist, create it with an empty list
+        vote_data = {'raw_votes':{}, 'tally':{}}
+        saveVotesFile(vote_data)
+    return vote_data
 
 def isValidImage(image):
     ext = os.path.splitext(image)[1]
@@ -26,6 +38,37 @@ def getImages():
 def index():
     return render_template("index.html", title=TITLE)
 
+@app.route('/vote')
+def vote():
+    ip = request.remote_addr #the ip address of the user. this will prevent duplicate votes
+    img = request.args['img']
+    vote_data = loadVotesFile()
+    alreadyVoted = ip in vote_data['raw_votes']
+    sameVote = alreadyVoted and vote_data['raw_votes'][ip] == img
+    if sameVote:
+        return "You already voted for this photo!"
+
+    vote_data['raw_votes'][ip] = img
+    vote_data['tally'] = {}
+    for img in getImages():
+        vote_data['tally'][img] = 0
+
+    for ip,img in vote_data['raw_votes'].items():
+        img = os.path.basename(img)
+        if not img in vote_data['tally']:
+            vote_data['tally'][img] = 0
+        vote_data['tally'][img] += 1
+    saveVotesFile(vote_data)
+    #doesn't render a page, just pops up a message
+    if alreadyVoted:
+        return "Your vote has been changed!"
+    else:
+        return "Thanks for voting! To change your vote, simply vote for a different image."
+
+@app.route('/votes')
+def votes():
+    return loadVotesFile()['tally']
+
 #the json data, which the script reads (not meant for the user)
 @app.route('/gallery_json')
 def gallery_json():
@@ -41,9 +84,10 @@ def gallery_json():
 def admin():
     target = os.path.join(APP_ROOT, 'static/images/')
 
-    if 'clear' in request.form:
+    if "clear" in request.form and request.form["clear"] == "yes":
         for image in getImages():
             os.remove("static/images/"+image)
+        os.remove("static/images/votes.json")
 
 
     # create image directory if not found
@@ -68,8 +112,7 @@ def admin():
             message = "File uploaded"
         else:
             message = "File type not supported, please use .png, .jpg, or .jpeg"
-
-    return render_template("admin.html", message=message, images=getImages())
+    return render_template("admin.html", message=message, images=getImages(), votes=loadVotesFile()['tally'])
 
 if __name__ == "__main__":
     app.run()
