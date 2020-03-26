@@ -138,7 +138,8 @@ $(function() {
 	function nextSlider() {
 		var last_pos = getLastPos();
 
-		if (last_pos > 0) {
+		console.log(last_pos)
+		if (last_pos > 50) {
 			$edge.css('display', 'none');
 			$edge = $edge.next();
 
@@ -178,12 +179,16 @@ $(function() {
 			if (photo.title != undefined) {
 				title = photo.title;
 			}
-			$caption.children('.title').text(title);
-			var text = "";
-			if (photo.date != undefined && photo.location != undefined) {
-				text = "Taken on " + photo.date + " in " + photo.location;
+			var caption = "";
+			if (photo.caption != undefined) {
+				caption = photo.caption;
 			}
-			$caption.children(".data").text(text);
+			$caption.children('.title').text(title);
+			// var text = "";
+			// if (photo.date != undefined && photo.location != undefined) {
+			// 	text = "Taken on " + photo.date + " in " + photo.location;
+			// }
+			$caption.children(".data").text(caption);
 		}
 	}
 

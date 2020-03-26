@@ -19,7 +19,7 @@ def loadVotesFile():
         vote_data = json.load(open(VOTES_FILE, 'r'))
     except FileNotFoundError:
         # if the file doesn't exist, create it with an empty list
-        vote_data = {'raw_votes':{}, 'tally':{}}
+        vote_data = {'raw_votes':{}, 'tally':{}, 'titles':{}, 'captions':{}}
         saveVotesFile(vote_data)
     return vote_data
 
@@ -76,8 +76,20 @@ def gallery_json():
     images = getImages() #get a list of all the images in the directory
     random.shuffle(images) #shuffle the images to help eliminate bias
 
+    vote_data = loadVotesFile()
+    titles = vote_data['titles']
+    captions = vote_data['captions']
+
     #convert the list to a JSON format that the JS will use
-    images_json = [{"id": i+1, "url":"images/"+img} for i,img in enumerate(images)]
+    images_json = []
+    for i, img in enumerate(images):
+        item = {"id": i+1, "url":"images/"+img}
+        if img in titles:
+            item['title'] = titles[img]
+        if img in captions:
+            item['caption'] = captions[img]
+        images_json.append(item)
+    
     data = {"album": {"name": TITLE}, "photos": images_json}
     return json.dumps(data)
 
@@ -101,7 +113,7 @@ def admin():
     if len(request.files) > 0:
         upload = request.files.getlist("file")[0]
         print("File name: {}".format(upload.filename))
-        filename = upload.filename
+        filename = upload.filename.replace("'","") #filter out '
 
         # file support verification
         ext = os.path.splitext(filename)[1]
@@ -110,6 +122,19 @@ def admin():
             destination = "/".join([target, filename])
             print("File saved to to:", destination)
             upload.save(destination)
+
+            #save title and caption if given
+            vote_data = loadVotesFile()
+            write = False
+            if 'title' in request.form:
+                vote_data['titles'][filename] = request.form['title']
+                write = True
+            if 'caption' in request.form:
+                vote_data['captions'][filename] = request.form['caption']
+                write = True
+            if write:
+                saveVotesFile(vote_data)
+
             message = "File uploaded"
         else:
             message = "File type not supported, please use .png, .jpg, or .jpeg"

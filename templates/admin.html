@@ -2,8 +2,11 @@
 {% block body %}
 
 <form method="POST" enctype="multipart/form-data">
-	<input id="btn" type="file" name="file" accept="image/*" onchange="this.form.submit()">
-	<label for="file-picker" class="btn"></label>
+	Title:<input type="text" name="title"><br/>
+	Caption:<input type="text" name="caption"><br/>
+	<input id="btn" type="file" name="file" accept="image/*">
+	<label for="file-picker" class="btn"></label><br/>
+	<input type="submit" value="Upload">
 </form>
 
 <br/><br/>
