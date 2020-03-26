@@ -13,42 +13,50 @@ $(function() {
 	var $selected;
 	var currPhoto;
 
-	// Get gallery json data & initialize page
-	$.getJSON('/gallery_json', function(data) {
-		// data = JSON.parse(data); //disabled this line because the data is now already a JS object
-		$header.children('.album').text(data.album.name);
-		photos = data.photos;
-		thumbnails = "";
-		
-		// Create thumbnails
-		for(var i=0; i < data.photos.length; i++){
-			photo = data.photos[i];
-			if (photo.thumb_url == undefined) { //if no thumbnail was given, use the original image
-				photo.thumb_url = photo.url;
+	function update(isFirst) {
+		// Get gallery json data & initialize page
+		$.getJSON('/gallery_json', function(data) {
+			// data = JSON.parse(data); //disabled this line because the data is now already a JS object
+			$header.children('.album').text(data.album.name);
+			photos = data.photos;
+			thumbnails = "";
+			
+			if (isFirst) {
+				// Create thumbnails
+				for(var i=0; i < data.photos.length; i++){
+					photo = data.photos[i];
+					if (photo.thumb_url == undefined) { //if no thumbnail was given, use the original image
+						photo.thumb_url = photo.url;
+					}
+					thumbnails += "<li><img data-index=" + photo.id + " src='/static/" + photo.thumb_url +
+												"' alt='" + photo.title + "' title='" + photo.title + "' /></li>";
+				}
+				$thumbnails.html(thumbnails);
+
+				// Select first photo and thumbnail by default
+				currPhoto = parseInt(photos[0].id, 10);
+				setImage(currPhoto);
+				firstThumbnail = $thumbnails.children(":first");
+				selectThumbnail(firstThumbnail);
+
+				// Calculate and initiate slider if thumbnails overflow
+				var first = firstThumbnail.children("img"); // check if loaded
+				if (first[0].complete) {
+					initSlider();
+				} else {
+					// init slider after thumbnail images load
+					first.load(initSlider);
+				}
+
+				// Make page visible
+				$('body').css("opacity", "1");
+			} else {
+				photos = data.photos;
+				setImage(currPhoto);
 			}
-			thumbnails += "<li><img data-index=" + photo.id + " src='/static/" + photo.thumb_url +
-										"' alt='" + photo.title + "' title='" + photo.title + "' /></li>";
-		}
-		$thumbnails.html(thumbnails);
-
-		// Select first photo and thumbnail by default
-		currPhoto = parseInt(photos[0].id, 10);
-		setImage(currPhoto);
-		firstThumbnail = $thumbnails.children(":first");
-		selectThumbnail(firstThumbnail);
-
-		// Calculate and initiate slider if thumbnails overflow
-		var first = firstThumbnail.children("img"); // check if loaded
-		if (first[0].complete) {
-			initSlider();
-		} else {
-			// init slider after thumbnail images load
-			first.load(initSlider);
-		}
-
-		// Make page visible
-		$('body').css("opacity", "1");
-	});
+		});
+	}
+	update(true);
 
 	// Select thumbnail & image on click
 	$thumbnails.on('click', 'img', function(event){
@@ -77,6 +85,7 @@ $(function() {
 			$.get("/vote?"+document.cookie+"&img="+$image.attr('src'), function(data, status){
 				// alert("Data: " + data + "\nStatus: " + status);
 				alert(data);
+				update(false);
 			});
 		}
 	});
@@ -188,6 +197,10 @@ $(function() {
 			// if (photo.date != undefined && photo.location != undefined) {
 			// 	text = "Taken on " + photo.date + " in " + photo.location;
 			// }
+			if (photo.tally != undefined) {
+				$caption.children(".tally").text("(" + photo.tally + " votes)");
+				//caption = caption + "(" + photo.tally + " votes)";
+			}
 			$caption.children(".data").text(caption);
 		}
 	}

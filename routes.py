@@ -74,11 +74,12 @@ def votes():
 @app.route('/gallery_json')
 def gallery_json():
     images = getImages() #get a list of all the images in the directory
-    random.shuffle(images) #shuffle the images to help eliminate bias
+    # random.shuffle(images) #shuffle the images to help eliminate bias
 
     vote_data = loadVotesFile()
     titles = vote_data['titles']
     captions = vote_data['captions']
+    tally = vote_data['tally']
 
     #convert the list to a JSON format that the JS will use
     images_json = []
@@ -88,6 +89,8 @@ def gallery_json():
             item['title'] = titles[img]
         if img in captions:
             item['caption'] = captions[img]
+        if img in tally:
+            item['tally'] = tally[img]
         images_json.append(item)
     
     data = {"album": {"name": TITLE}, "photos": images_json}
