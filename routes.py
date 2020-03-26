@@ -32,6 +32,16 @@ def getImages():
     images = os.listdir("static/images")
     #keep only the image files
     images = [image for image in images if isValidImage(image)]
+    # if refresh is not None:
+    #     print("hi!!!")
+    #     images2 = []
+    #     for image in images:
+    #         if refresh == image:
+    #             images2.append(image+"?"+str(random.random()))
+    #         else:
+    #             images2.append(image)
+    #     images = images2
+    # print(images)
     return images
 
 #the index.html page, which the user sees
@@ -110,8 +120,14 @@ def admin():
         image = request.form["img"]
         os.remove("static/images/"+image)
 
+    refresh = None
     if "rotate" in request.form and request.form["rotate"] == "yes":
-        image = request.form["img"]
+        print("rotate!!!")
+        filename = "static/images/"+request.form["img"]
+        img = Image.open(filename)
+        rotated = img.transpose(Image.ROTATE_90)
+        rotated.save(filename)
+        refresh = request.form["img"]
         # os.remove("static/images/"+image)
 
 
@@ -150,7 +166,7 @@ def admin():
             message = "File uploaded"
         else:
             message = "File type not supported, please use .png, .jpg, or .jpeg"
-    return render_template("admin.html", message=message, images=getImages(), votes=loadVotesFile()['tally'])
+    return render_template("admin.html", message=message, images=getImages(), votes=loadVotesFile()['tally'], refresh=refresh, random=random.random())
 
 if __name__ == "__main__":
     app.run()

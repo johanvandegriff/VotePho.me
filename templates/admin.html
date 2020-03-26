@@ -31,7 +31,7 @@
 <tbody>
 {% for image in images %}
 <tr>
-<td><img style="height: 150px" src="/static/images/{{ image }}"></td>
+<td><img style="height: 150px" src="/static/images/{{ image }}{% if refresh == image%}?{{ random }}{% endif %}"></td>
 <td>{{ votes[image] }}</td>
 <td><form method="POST">
 	<input type="submit" value="Rotate Image">
