@@ -169,4 +169,4 @@ def admin():
     return render_template("admin.html", message=message, images=getImages(), votes=loadVotesFile()['tally'], refresh=refresh, random=random.random())
 
 if __name__ == "__main__":
-    app.run()
+    app.run(host='0.0.0.0')
