@@ -26,12 +26,26 @@
 
 <br/><br/>
 
+<table>
+	<thead><tr><th>Image</th><th>Votes</th><th>Rotate</th><th>Remove</th></tr></thead>
+<tbody>
 {% for image in images %}
-<div style="border: 1px solid black">
-<img style="height: 150px" src="/static/images/{{ image }}">
-{{ votes[image] }}
-</div>
+<tr>
+<td><img style="height: 150px" src="/static/images/{{ image }}"></td>
+<td>{{ votes[image] }}</td>
+<td><form method="POST">
+	<input type="submit" value="Rotate Image">
+	<input type="hidden" name="img" value="{{ image }}">
+	<input type="hidden" name="rotate" value="yes">
+</form></td>
+<td><form method="POST">
+	<input type="submit" value="Remove Image" style="color: white; background: orange">
+	<input type="hidden" name="img" value="{{ image }}">
+	<input type="hidden" name="remove" value="yes">
+</form></td>
+</tr>
 {% endfor %}
+</tbody></table>
 
 {{ votes }}
 

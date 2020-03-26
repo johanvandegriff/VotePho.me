@@ -1,6 +1,7 @@
 #!/usr/bin/python3
 from flask import Flask, request, render_template, url_for
 import json, os, random
+from PIL import Image
 
 TITLE = "VotePho.me - Vote for a Photo" #site title, used in the title bar and the heading within the page
 
@@ -104,6 +105,14 @@ def admin():
         for image in getImages():
             os.remove("static/images/"+image)
         os.remove("static/images/votes.json")
+
+    if "remove" in request.form and request.form["remove"] == "yes":
+        image = request.form["img"]
+        os.remove("static/images/"+image)
+
+    if "rotate" in request.form and request.form["rotate"] == "yes":
+        image = request.form["img"]
+        # os.remove("static/images/"+image)
 
 
     # create image directory if not found
