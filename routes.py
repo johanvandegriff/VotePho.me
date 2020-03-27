@@ -86,6 +86,7 @@ def votes():
 def gallery_json():
     images = getImages() #get a list of all the images in the directory
     # random.shuffle(images) #shuffle the images to help eliminate bias
+    images.sort() #sort for a more predictible order
 
     vote_data = loadVotesFile()
     titles = vote_data['titles']
