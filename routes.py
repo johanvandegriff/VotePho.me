@@ -26,7 +26,7 @@ def loadVotesFile():
 
 def isValidImage(image):
     ext = os.path.splitext(image)[1]
-    return ext in (".png", ".jpg", ".jpeg", ".PNG", ".JPG", ".JPEG")
+    return ext in (".png", ".jpg", ".jpeg", ".gif", ".PNG", ".JPG", ".JPEG", ".GIF")
 
 def getImages():
     images = os.listdir("static/images")
@@ -144,8 +144,7 @@ def admin():
         filename = upload.filename.replace("'","") #filter out '
 
         # file support verification
-        ext = os.path.splitext(filename)[1]
-        if ext in (".png", ".jpg", ".jpeg", ".PNG", ".JPG", ".JPEG"):
+        if isValidImage(filename):
             # save file
             destination = "/".join([target, filename])
             print("File saved to to:", destination)
@@ -165,7 +164,7 @@ def admin():
 
             message = "File uploaded"
         else:
-            message = "File type not supported, please use .png, .jpg, or .jpeg"
+            message = "File type not supported, please use .png, .jpg, .jpeg, or .gif"
     return render_template("admin.html", message=message, images=getImages(), votes=loadVotesFile()['tally'], refresh=refresh, random=random.random())
 
 if __name__ == "__main__":
