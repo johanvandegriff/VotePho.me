@@ -3,7 +3,7 @@ from flask import Flask, request, render_template, url_for
 import json, os, random
 from PIL import Image
 
-TITLE = "VotePho.me - Vote for a Photo" #site title, used in the title bar and the heading within the page
+TITLE = "VotePhoMe.johanv.xyz - Vote for a Photo" #site title, used in the title bar and the heading within the page
 
 app = Flask(__name__)
 app.config['MAX_CONTENT_LENGTH'] = 100 * 1024 * 1024    # 100 Mb limit

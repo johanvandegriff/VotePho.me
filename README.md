@@ -10,7 +10,7 @@ This part is mostly for me, but you might find it useful as well, especially if 
 ### Testing
 This is the quick and easy way to run VotePho.me locally.
 ```bash
-git clone https://gitlab.com/johanvandegriff/VotePho.me
+git clone https://git.sr.ht/~johanvandegriff/VotePho.me
 cd VotePho.me
 python3 routes.py
 ```
@@ -31,7 +31,7 @@ cat ~/.ssh/heroku.pub #this will output the key you need to copy for the next st
 6. Run these commands to deploy the Heroku app! Replace `yourapp` with the name you put when creating the app on Heroku.
 ```bash
 ssh-add ~/.ssh/heroku #and enter the passphrase if you set one
-git clone https://gitlab.com/johanvandegriff/VotePho.me
+git clone https://git.sr.ht/~johanvandegriff/VotePho.me
 cd VotePho.me
 git remote add heroku git@heroku.com:yourapp.git
 git push heroku master
@@ -50,7 +50,7 @@ More info on how I set up these pre-requisites [here](https://blog.johanv.xyz/ho
 
 Run these commands. Replace `yoursite.com` with your actual domain name.
 ```bash
-git clone https://gitlab.com/johanvandegriff/VotePho.me
+git clone https://git.sr.ht/~johanvandegriff/VotePho.me
 cd VotePho.me
 git remote add dokku@yoursite.com:votephome
 git push dokku master
