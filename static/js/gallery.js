@@ -197,9 +197,12 @@ $(function() {
 			// if (photo.date != undefined && photo.location != undefined) {
 			// 	text = "Taken on " + photo.date + " in " + photo.location;
 			// }
-			if (photo.tally != undefined) {
+			if (photo.tally == undefined) {
+				$caption.children(".tally").text("(0 votes)");
+			} else if (photo.tally == 1) {
+				$caption.children(".tally").text("(1 vote)");
+			} else {
 				$caption.children(".tally").text("(" + photo.tally + " votes)");
-				//caption = caption + "(" + photo.tally + " votes)";
 			}
 			$caption.children(".data").text(caption);
 		}
