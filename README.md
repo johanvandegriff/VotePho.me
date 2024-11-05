@@ -2,7 +2,7 @@
 Vote for your favorite photo from a gallery of options!
 
 ## Try It Out!
-The app is live on my personal site: [https://votephome.johanv.xyz/](https://votephome.johanv.xyz/)
+The app is live on my personal site: [https://votephome.jjv.sh/](https://votephome.jjv.sh/)
 
 ## Installation
 This part is mostly for me, but you might find it useful as well, especially if you want to modify the code and run it yourself.
@@ -46,7 +46,7 @@ You need:
 * a server running Dokku (one click install on [DigitalOcean](https://m.do.co/c/f300a2838d1d)) with...
 * (optional) the [letsencrypt dokku module](https://github.com/dokku/dokku-letsencrypt) for https
 
-More info on how I set up these pre-requisites [here](https://blog.johanv.xyz/how-i-created-johanv-xyz).
+More info on how I set up these pre-requisites [here](https://blog.jjv.sh/how-i-created-johanv-xyz).
 
 Run these commands. Replace `yoursite.com` with your actual domain name.
 ```bash
